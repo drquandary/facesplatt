@@ -101,6 +101,7 @@ window.addEventListener('keydown', async (e) => {
   else if (e.key === 'c') { await gallery.setMode('concert'); updateHUD(); }
   else if (e.key === 'h') { document.getElementById('help').classList.toggle('hidden'); }
   else if (e.key === 'w') { await enableWebcam(); }
+  else if (e.key === 'd') { const on = gallery.toggleDepthView(); setStatus(on ? 'Depth mask view — white = forward, black = back' : 'RGB view'); }
 });
 
 async function enableWebcam() {

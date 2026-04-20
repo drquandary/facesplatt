@@ -1,5 +1,5 @@
 import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-import { buildFaceSplat } from './splat.js';
+import { buildFaceSplat, setDepthView } from './splat.js';
 
 // Gallery mode: single face centered, carousel navigation.
 // Concert mode: all faces arranged as a crowd — each billboards to camera, subtle idle motion.
@@ -12,11 +12,18 @@ export class Gallery {
     scene.add(this.group);
 
     this.manifest = [];
-    this.splats = new Map(); // file → THREE.Points
+    this.splats = new Map(); // `${file}|${useLandmarks}` → THREE.Points
     this.mode = null;
     this.index = 0;
     this.concertGroup = null;
     this._loading = null;
+    this.depthView = false;
+  }
+
+  toggleDepthView() {
+    this.depthView = !this.depthView;
+    this.group.traverse(o => { if (o.isPoints) setDepthView(o, this.depthView); });
+    return this.depthView;
   }
 
   async load(manifestUrl = './manifest.json') {
@@ -47,13 +54,14 @@ export class Gallery {
     this.concertGroup = null;
   }
 
-  async _getSplat(entry) {
-    const key = entry.file;
+  async _getSplat(entry, useLandmarks) {
+    const key = `${entry.file}|${useLandmarks ? 'lm' : 'rb'}`;
     if (this.splats.has(key)) return this.splats.get(key);
     const pts = await buildFaceSplat(`./cfad/${entry.file}`, {
-      maxDim: 200,
-      splatSize: 0.004,
-      depthScale: 0.18,
+      maxDim: useLandmarks ? 220 : 160,
+      splatSize: useLandmarks ? 0.010 : 0.004,
+      depthScale: useLandmarks ? 0.38 : 0.18,
+      useLandmarks,
     });
     pts.userData.entry = entry;
     this.splats.set(key, pts);
@@ -64,13 +72,13 @@ export class Gallery {
     this._clearGroup();
     const entry = this.manifest[i];
     if (!entry) return;
-    const pts = await this._getSplat(entry);
-    // Face local geometry is ~1 unit tall. World screen is ~0.3m.
-    // Scale to ~0.25 and sit just behind screen plane so parallax is strong.
+    const pts = await this._getSplat(entry, /*useLandmarks=*/true);
+    // Face local geom ~1 unit tall; world screen ~0.30m → scale 0.28 and sit just behind plane.
     pts.position.set(0, 0, -0.08);
     pts.rotation.set(0, 0, 0);
     pts.scale.setScalar(0.28);
-    pts.material.size = 0.0055;
+    pts.material.size = 0.012;
+    setDepthView(pts, this.depthView);
     this.group.add(pts);
     this._currentEntry = entry;
   }
@@ -106,14 +114,14 @@ export class Gallery {
         const jitter = (r % 2) * (arc / countThisRow) * 0.5;
         const xs = Math.sin(theta + jitter) * radius;
         const zs = -Math.cos(theta + jitter) * radius + 0.15;
-        batch.push(this._getSplat(entry).then(pts => {
+        batch.push(this._getSplat(entry, /*useLandmarks=*/false).then(pts => {
           pts.position.set(xs, yBase, zs);
           pts.scale.setScalar(scale);
-          pts.material.size = 0.0025;
-          // Billboard: face toward origin on XZ plane.
+          pts.material.size = 0.004;
           pts.lookAt(0, yBase, 0.3);
           pts.userData.idlePhase = Math.random() * Math.PI * 2;
           pts.userData.idleAmp = 0.008 + Math.random() * 0.008;
+          setDepthView(pts, this.depthView);
           g.add(pts);
         }));
       }
