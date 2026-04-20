@@ -1,0 +1,368 @@
+{
+  "pipeline": "CFAD Face Gaussian Splatting",
+  "version": "1.0",
+  "device": "mps",
+  "total_faces": 60,
+  "faces": {
+    "AF-C01": {
+      "id": "AF-C01",
+      "gender": "Asian Female",
+      "model_url": "faces/AF-C01/AF-C01.bin",
+      "status": "ready"
+    },
+    "AM-010": {
+      "id": "AM-010",
+      "gender": "Asian Male",
+      "model_url": "faces/AM-010/AM-010.bin",
+      "status": "ready"
+    },
+    "AM-011": {
+      "id": "AM-011",
+      "gender": "Asian Male",
+      "model_url": "faces/AM-011/AM-011.bin",
+      "status": "ready"
+    },
+    "BF-002": {
+      "id": "BF-002",
+      "gender": "Black Female",
+      "model_url": "faces/BF-002/BF-002.bin",
+      "status": "ready"
+    },
+    "BF-011": {
+      "id": "BF-011",
+      "gender": "Black Female",
+      "model_url": "faces/BF-011/BF-011.bin",
+      "status": "ready"
+    },
+    "BM-001": {
+      "id": "BM-001",
+      "gender": "Black Male",
+      "model_url": "faces/BM-001/BM-001.bin",
+      "status": "ready"
+    },
+    "LF-002": {
+      "id": "LF-002",
+      "gender": "Latino Female",
+      "model_url": "faces/LF-002/LF-002.bin",
+      "status": "ready"
+    },
+    "LF-004": {
+      "id": "LF-004",
+      "gender": "Latino Female",
+      "model_url": "faces/LF-004/LF-004.bin",
+      "status": "ready"
+    },
+    "LF-007": {
+      "id": "LF-007",
+      "gender": "Latino Female",
+      "model_url": "faces/LF-007/LF-007.bin",
+      "status": "ready"
+    },
+    "LF-010": {
+      "id": "LF-010",
+      "gender": "Latino Female",
+      "model_url": "faces/LF-010/LF-010.bin",
+      "status": "ready"
+    },
+    "LF-011": {
+      "id": "LF-011",
+      "gender": "Latino Female",
+      "model_url": "faces/LF-011/LF-011.bin",
+      "status": "ready"
+    },
+    "LF-C01": {
+      "id": "LF-C01",
+      "gender": "Latino Female",
+      "model_url": "faces/LF-C01/LF-C01.bin",
+      "status": "ready"
+    },
+    "LM-004": {
+      "id": "LM-004",
+      "gender": "Latino Male",
+      "model_url": "faces/LM-004/LM-004.bin",
+      "status": "ready"
+    },
+    "WF-001": {
+      "id": "WF-001",
+      "gender": "White Female",
+      "model_url": "faces/WF-001/WF-001.bin",
+      "status": "ready"
+    },
+    "WF-002": {
+      "id": "WF-002",
+      "gender": "White Female",
+      "model_url": "faces/WF-002/WF-002.bin",
+      "status": "ready"
+    },
+    "WF-008": {
+      "id": "WF-008",
+      "gender": "White Female",
+      "model_url": "faces/WF-008/WF-008.bin",
+      "status": "ready"
+    },
+    "WF-009": {
+      "id": "WF-009",
+      "gender": "White Female",
+      "model_url": "faces/WF-009/WF-009.bin",
+      "status": "ready"
+    },
+    "WF-010": {
+      "id": "WF-010",
+      "gender": "White Female",
+      "model_url": "faces/WF-010/WF-010.bin",
+      "status": "ready"
+    },
+    "WF-014": {
+      "id": "WF-014",
+      "gender": "White Female",
+      "model_url": "faces/WF-014/WF-014.bin",
+      "status": "ready"
+    },
+    "WF-015": {
+      "id": "WF-015",
+      "gender": "White Female",
+      "model_url": "faces/WF-015/WF-015.bin",
+      "status": "ready"
+    },
+    "WF-016": {
+      "id": "WF-016",
+      "gender": "White Female",
+      "model_url": "faces/WF-016/WF-016.bin",
+      "status": "ready"
+    },
+    "WF-018": {
+      "id": "WF-018",
+      "gender": "White Female",
+      "model_url": "faces/WF-018/WF-018.bin",
+      "status": "ready"
+    },
+    "WF-019": {
+      "id": "WF-019",
+      "gender": "White Female",
+      "model_url": "faces/WF-019/WF-019.bin",
+      "status": "ready"
+    },
+    "WF-028": {
+      "id": "WF-028",
+      "gender": "White Female",
+      "model_url": "faces/WF-028/WF-028.bin",
+      "status": "ready"
+    },
+    "WF-036": {
+      "id": "WF-036",
+      "gender": "White Female",
+      "model_url": "faces/WF-036/WF-036.bin",
+      "status": "ready"
+    },
+    "WF-038": {
+      "id": "WF-038",
+      "gender": "White Female",
+      "model_url": "faces/WF-038/WF-038.bin",
+      "status": "ready"
+    },
+    "WF-047": {
+      "id": "WF-047",
+      "gender": "White Female",
+      "model_url": "faces/WF-047/WF-047.bin",
+      "status": "ready"
+    },
+    "WF-048": {
+      "id": "WF-048",
+      "gender": "White Female",
+      "model_url": "faces/WF-048/WF-048.bin",
+      "status": "ready"
+    },
+    "WF-084": {
+      "id": "WF-084",
+      "gender": "White Female",
+      "model_url": "faces/WF-084/WF-084.bin",
+      "status": "ready"
+    },
+    "WF-217": {
+      "id": "WF-217",
+      "gender": "White Female",
+      "model_url": "faces/WF-217/WF-217.bin",
+      "status": "ready"
+    },
+    "WF-228": {
+      "id": "WF-228",
+      "gender": "White Female",
+      "model_url": "faces/WF-228/WF-228.bin",
+      "status": "ready"
+    },
+    "WF-259": {
+      "id": "WF-259",
+      "gender": "White Female",
+      "model_url": "faces/WF-259/WF-259.bin",
+      "status": "ready"
+    },
+    "WF-260": {
+      "id": "WF-260",
+      "gender": "White Female",
+      "model_url": "faces/WF-260/WF-260.bin",
+      "status": "ready"
+    },
+    "WF-262": {
+      "id": "WF-262",
+      "gender": "White Female",
+      "model_url": "faces/WF-262/WF-262.bin",
+      "status": "ready"
+    },
+    "WF-263": {
+      "id": "WF-263",
+      "gender": "White Female",
+      "model_url": "faces/WF-263/WF-263.bin",
+      "status": "ready"
+    },
+    "WF-264": {
+      "id": "WF-264",
+      "gender": "White Female",
+      "model_url": "faces/WF-264/WF-264.bin",
+      "status": "ready"
+    },
+    "WF-271": {
+      "id": "WF-271",
+      "gender": "White Female",
+      "model_url": "faces/WF-271/WF-271.bin",
+      "status": "ready"
+    },
+    "WF-276": {
+      "id": "WF-276",
+      "gender": "White Female",
+      "model_url": "faces/WF-276/WF-276.bin",
+      "status": "ready"
+    },
+    "WF-279": {
+      "id": "WF-279",
+      "gender": "White Female",
+      "model_url": "faces/WF-279/WF-279.bin",
+      "status": "ready"
+    },
+    "WF-281": {
+      "id": "WF-281",
+      "gender": "White Female",
+      "model_url": "faces/WF-281/WF-281.bin",
+      "status": "ready"
+    },
+    "WF-311": {
+      "id": "WF-311",
+      "gender": "White Female",
+      "model_url": "faces/WF-311/WF-311.bin",
+      "status": "ready"
+    },
+    "WF-323": {
+      "id": "WF-323",
+      "gender": "White Female",
+      "model_url": "faces/WF-323/WF-323.bin",
+      "status": "ready"
+    },
+    "WF-421": {
+      "id": "WF-421",
+      "gender": "White Female",
+      "model_url": "faces/WF-421/WF-421.bin",
+      "status": "ready"
+    },
+    "WF-422": {
+      "id": "WF-422",
+      "gender": "White Female",
+      "model_url": "faces/WF-422/WF-422.bin",
+      "status": "ready"
+    },
+    "WF-423": {
+      "id": "WF-423",
+      "gender": "White Female",
+      "model_url": "faces/WF-423/WF-423.bin",
+      "status": "ready"
+    },
+    "WF-C35": {
+      "id": "WF-C35",
+      "gender": "White Female",
+      "model_url": "faces/WF-C35/WF-C35.bin",
+      "status": "ready"
+    },
+    "WM-003": {
+      "id": "WM-003",
+      "gender": "White Male",
+      "model_url": "faces/WM-003/WM-003.bin",
+      "status": "ready"
+    },
+    "WM-004": {
+      "id": "WM-004",
+      "gender": "White Male",
+      "model_url": "faces/WM-004/WM-004.bin",
+      "status": "ready"
+    },
+    "WM-005": {
+      "id": "WM-005",
+      "gender": "White Male",
+      "model_url": "faces/WM-005/WM-005.bin",
+      "status": "ready"
+    },
+    "WM-007": {
+      "id": "WM-007",
+      "gender": "White Male",
+      "model_url": "faces/WM-007/WM-007.bin",
+      "status": "ready"
+    },
+    "WM-015": {
+      "id": "WM-015",
+      "gender": "White Male",
+      "model_url": "faces/WM-015/WM-015.bin",
+      "status": "ready"
+    },
+    "WM-022": {
+      "id": "WM-022",
+      "gender": "White Male",
+      "model_url": "faces/WM-022/WM-022.bin",
+      "status": "ready"
+    },
+    "WM-023": {
+      "id": "WM-023",
+      "gender": "White Male",
+      "model_url": "faces/WM-023/WM-023.bin",
+      "status": "ready"
+    },
+    "WM-026": {
+      "id": "WM-026",
+      "gender": "White Male",
+      "model_url": "faces/WM-026/WM-026.bin",
+      "status": "ready"
+    },
+    "WM-248": {
+      "id": "WM-248",
+      "gender": "White Male",
+      "model_url": "faces/WM-248/WM-248.bin",
+      "status": "ready"
+    },
+    "WM-250": {
+      "id": "WM-250",
+      "gender": "White Male",
+      "model_url": "faces/WM-250/WM-250.bin",
+      "status": "ready"
+    },
+    "WM-253": {
+      "id": "WM-253",
+      "gender": "White Male",
+      "model_url": "faces/WM-253/WM-253.bin",
+      "status": "ready"
+    },
+    "WM-275": {
+      "id": "WM-275",
+      "gender": "White Male",
+      "model_url": "faces/WM-275/WM-275.bin",
+      "status": "ready"
+    },
+    "WM-279": {
+      "id": "WM-279",
+      "gender": "White Male",
+      "model_url": "faces/WM-279/WM-279.bin",
+      "status": "ready"
+    },
+    "WM-C53": {
+      "id": "WM-C53",
+      "gender": "White Male",
+      "model_url": "faces/WM-C53/WM-C53.bin",
+      "status": "ready"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "CFAD Face Gaussian Splatting Pipeline"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "WM-003_gaussians",
+      "mesh": 0
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "COLOR": 1,
+            "OPACITY": 2
+          },
+          "indices": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 15000,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 15000,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 15000,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5123,
+      "count": 15000,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 180000
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 180000,
+      "byteLength": 180000
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 360000,
+      "byteLength": 60000
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 420000,
+      "byteLength": 60000
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "data:application/octet-stream;base64,<binary_data>",
+      "byteLength": 480000
+    }
+  ]
+}

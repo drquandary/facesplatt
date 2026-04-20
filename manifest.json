@@ -1,0 +1,842 @@
+[
+  {
+    "file": "CFAD-AF-C01-004-111-NBM.png",
+    "race": "Asian",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "AF-C01-004-111"
+  },
+  {
+    "file": "CFAD-AF-C01-004-211-NBM.png",
+    "race": "Asian",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "AF-C01-004-211"
+  },
+  {
+    "file": "CFAD-AM-010-999-111-NBM.png",
+    "race": "Asian",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "AM-010-999-111"
+  },
+  {
+    "file": "CFAD-AM-010-999-212-NBM.png",
+    "race": "Asian",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "AM-010-999-212"
+  },
+  {
+    "file": "CFAD-AM-011-999-111-NBM.png",
+    "race": "Asian",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "AM-011-999-111"
+  },
+  {
+    "file": "CFAD-AM-011-999-212-NBM.png",
+    "race": "Asian",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "AM-011-999-212"
+  },
+  {
+    "file": "CFAD-BF-002-999-111-NBM.png",
+    "race": "Black",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "BF-002-999-111"
+  },
+  {
+    "file": "CFAD-BF-002-999-211-NBM.png",
+    "race": "Black",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "BF-002-999-211"
+  },
+  {
+    "file": "CFAD-BF-011-999-111-NBM.png",
+    "race": "Black",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "BF-011-999-111"
+  },
+  {
+    "file": "CFAD-BF-011-999-212-NBM.png",
+    "race": "Black",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "BF-011-999-212"
+  },
+  {
+    "file": "CFAD-BM-001-999-111-NBM.png",
+    "race": "Black",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "BM-001-999-111"
+  },
+  {
+    "file": "CFAD-BM-001-999-211-NBM.png",
+    "race": "Black",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "BM-001-999-211"
+  },
+  {
+    "file": "CFAD-LF-002-018-111-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "LF-002-018-111"
+  },
+  {
+    "file": "CFAD-LF-002-018-211-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "LF-002-018-211"
+  },
+  {
+    "file": "CFAD-LF-004-999-111-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "LF-004-999-111"
+  },
+  {
+    "file": "CFAD-LF-004-999-211-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "LF-004-999-211"
+  },
+  {
+    "file": "CFAD-LF-007-999-111-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "LF-007-999-111"
+  },
+  {
+    "file": "CFAD-LF-007-999-211-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "LF-007-999-211"
+  },
+  {
+    "file": "CFAD-LF-010-999-111-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "LF-010-999-111"
+  },
+  {
+    "file": "CFAD-LF-010-999-212-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "LF-010-999-212"
+  },
+  {
+    "file": "CFAD-LF-011-999-111-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "LF-011-999-111"
+  },
+  {
+    "file": "CFAD-LF-011-999-211-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "LF-011-999-211"
+  },
+  {
+    "file": "CFAD-LF-C01-013-111-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "LF-C01-013-111"
+  },
+  {
+    "file": "CFAD-LF-C01-013-211-NBM.png",
+    "race": "Latino",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "LF-C01-013-211"
+  },
+  {
+    "file": "CFAD-LM-004-999-111-NBM.png",
+    "race": "Latino",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "LM-004-999-111"
+  },
+  {
+    "file": "CFAD-LM-004-999-211-NBM.png",
+    "race": "Latino",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "LM-004-999-211"
+  },
+  {
+    "file": "CFAD-WF-001-001-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-001-001-111"
+  },
+  {
+    "file": "CFAD-WF-001-001-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-001-001-211"
+  },
+  {
+    "file": "CFAD-WF-002-003-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-002-003-111"
+  },
+  {
+    "file": "CFAD-WF-002-003-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-002-003-211"
+  },
+  {
+    "file": "CFAD-WF-008-015-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-008-015-111"
+  },
+  {
+    "file": "CFAD-WF-008-015-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-008-015-211"
+  },
+  {
+    "file": "CFAD-WF-009-017-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-009-017-111"
+  },
+  {
+    "file": "CFAD-WF-009-017-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-009-017-211"
+  },
+  {
+    "file": "CFAD-WF-010-020-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-010-020-111"
+  },
+  {
+    "file": "CFAD-WF-010-020-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-010-020-211"
+  },
+  {
+    "file": "CFAD-WF-014-028-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-014-028-111"
+  },
+  {
+    "file": "CFAD-WF-014-028-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-014-028-211"
+  },
+  {
+    "file": "CFAD-WF-015-030-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-015-030-111"
+  },
+  {
+    "file": "CFAD-WF-015-030-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-015-030-211"
+  },
+  {
+    "file": "CFAD-WF-016-031-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-016-031-111"
+  },
+  {
+    "file": "CFAD-WF-016-031-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-016-031-211"
+  },
+  {
+    "file": "CFAD-WF-018-033-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-018-033-111"
+  },
+  {
+    "file": "CFAD-WF-018-033-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-018-033-211"
+  },
+  {
+    "file": "CFAD-WF-019-034-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-019-034-111"
+  },
+  {
+    "file": "CFAD-WF-019-034-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-019-034-211"
+  },
+  {
+    "file": "CFAD-WF-028-049-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-028-049-111"
+  },
+  {
+    "file": "CFAD-WF-028-049-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-028-049-211"
+  },
+  {
+    "file": "CFAD-WF-036-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-036-999-111"
+  },
+  {
+    "file": "CFAD-WF-036-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-036-999-211"
+  },
+  {
+    "file": "CFAD-WF-038-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-038-999-111"
+  },
+  {
+    "file": "CFAD-WF-038-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-038-999-211"
+  },
+  {
+    "file": "CFAD-WF-047-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-047-999-111"
+  },
+  {
+    "file": "CFAD-WF-047-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-047-999-211"
+  },
+  {
+    "file": "CFAD-WF-048-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-048-999-111"
+  },
+  {
+    "file": "CFAD-WF-048-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-048-999-211"
+  },
+  {
+    "file": "CFAD-WF-084-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-084-999-111"
+  },
+  {
+    "file": "CFAD-WF-084-999-112-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-084-999-112"
+  },
+  {
+    "file": "CFAD-WF-217-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-217-999-111"
+  },
+  {
+    "file": "CFAD-WF-217-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-217-999-211"
+  },
+  {
+    "file": "CFAD-WF-228-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-228-999-111"
+  },
+  {
+    "file": "CFAD-WF-228-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-228-999-212"
+  },
+  {
+    "file": "CFAD-WF-259-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-259-999-111"
+  },
+  {
+    "file": "CFAD-WF-259-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-259-999-212"
+  },
+  {
+    "file": "CFAD-WF-260-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-260-999-111"
+  },
+  {
+    "file": "CFAD-WF-260-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-260-999-212"
+  },
+  {
+    "file": "CFAD-WF-262-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-262-999-111"
+  },
+  {
+    "file": "CFAD-WF-262-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-262-999-212"
+  },
+  {
+    "file": "CFAD-WF-263-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-263-999-111"
+  },
+  {
+    "file": "CFAD-WF-263-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-263-999-212"
+  },
+  {
+    "file": "CFAD-WF-264-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-264-999-111"
+  },
+  {
+    "file": "CFAD-WF-264-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-264-999-212"
+  },
+  {
+    "file": "CFAD-WF-271-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-271-999-111"
+  },
+  {
+    "file": "CFAD-WF-271-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-271-999-212"
+  },
+  {
+    "file": "CFAD-WF-276-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-276-999-111"
+  },
+  {
+    "file": "CFAD-WF-276-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-276-999-211"
+  },
+  {
+    "file": "CFAD-WF-279-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-279-999-111"
+  },
+  {
+    "file": "CFAD-WF-279-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-279-999-212"
+  },
+  {
+    "file": "CFAD-WF-281-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-281-999-111"
+  },
+  {
+    "file": "CFAD-WF-281-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-281-999-212"
+  },
+  {
+    "file": "CFAD-WF-311-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-311-999-111"
+  },
+  {
+    "file": "CFAD-WF-311-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-311-999-212"
+  },
+  {
+    "file": "CFAD-WF-323-999-113-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-323-999-113"
+  },
+  {
+    "file": "CFAD-WF-323-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-323-999-212"
+  },
+  {
+    "file": "CFAD-WF-421-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-421-999-111"
+  },
+  {
+    "file": "CFAD-WF-421-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-421-999-211"
+  },
+  {
+    "file": "CFAD-WF-422-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-422-999-111"
+  },
+  {
+    "file": "CFAD-WF-422-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-422-999-211"
+  },
+  {
+    "file": "CFAD-WF-423-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-423-999-111"
+  },
+  {
+    "file": "CFAD-WF-423-999-211-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-423-999-211"
+  },
+  {
+    "file": "CFAD-WF-C35-999-111-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "frontal",
+    "id": "WF-C35-999-111"
+  },
+  {
+    "file": "CFAD-WF-C35-999-212-NBM.png",
+    "race": "White",
+    "sex": "Female",
+    "pose": "profile",
+    "id": "WF-C35-999-212"
+  },
+  {
+    "file": "CFAD-WM-003-016-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-003-016-111"
+  },
+  {
+    "file": "CFAD-WM-003-016-211-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-003-016-211"
+  },
+  {
+    "file": "CFAD-WM-004-019-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-004-019-111"
+  },
+  {
+    "file": "CFAD-WM-004-019-211-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-004-019-211"
+  },
+  {
+    "file": "CFAD-WM-005-026-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-005-026-111"
+  },
+  {
+    "file": "CFAD-WM-005-026-211-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-005-026-211"
+  },
+  {
+    "file": "CFAD-WM-007-038-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-007-038-111"
+  },
+  {
+    "file": "CFAD-WM-007-038-212-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-007-038-212"
+  },
+  {
+    "file": "CFAD-WM-015-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-015-999-111"
+  },
+  {
+    "file": "CFAD-WM-015-999-211-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-015-999-211"
+  },
+  {
+    "file": "CFAD-WM-022-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-022-999-111"
+  },
+  {
+    "file": "CFAD-WM-022-999-211-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-022-999-211"
+  },
+  {
+    "file": "CFAD-WM-023-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-023-999-111"
+  },
+  {
+    "file": "CFAD-WM-023-999-211-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-023-999-211"
+  },
+  {
+    "file": "CFAD-WM-026-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-026-999-111"
+  },
+  {
+    "file": "CFAD-WM-026-999-211-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-026-999-211"
+  },
+  {
+    "file": "CFAD-WM-248-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-248-999-111"
+  },
+  {
+    "file": "CFAD-WM-248-999-212-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-248-999-212"
+  },
+  {
+    "file": "CFAD-WM-250-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-250-999-111"
+  },
+  {
+    "file": "CFAD-WM-250-999-212-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-250-999-212"
+  },
+  {
+    "file": "CFAD-WM-253-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-253-999-111"
+  },
+  {
+    "file": "CFAD-WM-253-999-212-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-253-999-212"
+  },
+  {
+    "file": "CFAD-WM-275-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-275-999-111"
+  },
+  {
+    "file": "CFAD-WM-275-999-212-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-275-999-212"
+  },
+  {
+    "file": "CFAD-WM-279-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-279-999-111"
+  },
+  {
+    "file": "CFAD-WM-279-999-211-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-279-999-211"
+  },
+  {
+    "file": "CFAD-WM-C53-999-111-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "frontal",
+    "id": "WM-C53-999-111"
+  },
+  {
+    "file": "CFAD-WM-C53-999-212-NBM.png",
+    "race": "White",
+    "sex": "Male",
+    "pose": "profile",
+    "id": "WM-C53-999-212"
+  }
+]

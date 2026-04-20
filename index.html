@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>facesplatt · holographic face splat gallery</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #05060a; color: #e8ecf5; font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; overflow: hidden; }
+  #stage { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
+  #status { position: fixed; top: 10px; left: 12px; font-size: 12px; opacity: 0.75; pointer-events: none; z-index: 10; }
+  #hud    { position: fixed; bottom: 10px; left: 12px; font-size: 12px; opacity: 0.75; pointer-events: none; z-index: 10; letter-spacing: 0.04em; }
+  #webcam-wrap { position: fixed; bottom: 12px; right: 12px; width: 160px; height: 120px; border: 1px solid #2a2f3e; border-radius: 6px; overflow: hidden; z-index: 10; background: #111; }
+  #webcam-wrap.hidden { display: none; }
+  #webcam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+  #help {
+    position: fixed; top: 40px; left: 12px; font-size: 12px; background: rgba(10,12,18,0.85);
+    border: 1px solid #2a2f3e; border-radius: 6px; padding: 10px 12px; z-index: 10; line-height: 1.6;
+  }
+  #help.hidden { display: none; }
+  #help kbd { background:#1a1e2a; border:1px solid #2a2f3e; border-radius:3px; padding:0 5px; font-family: ui-monospace, monospace; }
+  a { color: #8ab4ff; }
+</style>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+  <div id="status">booting…</div>
+  <div id="hud"></div>
+  <div id="help">
+    <div><strong>facesplatt</strong> — head-tracked face splat gallery</div>
+    <div><kbd>←</kbd> / <kbd>→</kbd>  prev / next face</div>
+    <div><kbd>G</kbd>  gallery mode (single face)</div>
+    <div><kbd>C</kbd>  concert mode (crowd of all faces)</div>
+    <div><kbd>W</kbd>  enable webcam head tracking</div>
+    <div><kbd>H</kbd>  toggle this help</div>
+    <div style="opacity:0.6; margin-top:6px;">(mouse moves camera while webcam is off)</div>
+  </div>
+  <div id="webcam-wrap" class="hidden"><video id="webcam" autoplay muted playsinline></video></div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

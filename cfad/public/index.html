@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFAD Face Gallery - 3D Gaussian Splatting</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #0a0a0f;
+    color: #e0e0e8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+}
+
+header {
+    text-align: center;
+    padding: 48px 20px 32px;
+    background: linear-gradient(180deg, #0f0f1a 0%, transparent 100%);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #fff 0%, #a0a0c0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p { color: #808098; font-size: 1.1rem; }
+
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #b0b0c8;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.filter-btn.active { background: rgba(120,80,255,0.2); border-color: rgba(120,80,255,0.4); color: #fff; }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 32px 40px 80px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.face-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.face-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(120,80,255,0.3);
+    box-shadow: 0 12px 40px rgba(80,50,200,0.15);
+}
+
+.face-card canvas { width: 100%; height: 240px; display: block; }
+
+.face-info { padding: 16px 20px; }
+.face-id { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+
+.face-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.face-gender { font-size: 0.85rem; color: #808098; }
+
+.face-tag {
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    background: rgba(120,80,255,0.15);
+    color: #b090ff;
+}
+
+.viewer-overlay {
+    position: fixed; inset: 0;
+    background: rgba(5,5,15,0.97);
+    z-index: 100;
+    display: none;
+}
+
+.viewer-overlay.active { display: flex; flex-direction: column; }
+
+.viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: rgba(0,0,0,0.5);
+}
+
+.viewer-header h2 { font-weight: 400; font-size: 1.2rem; }
+
+.viewer-close {
+    background: rgba(255,255,255,0.1);
+    border: none; color: #fff;
+    width: 36px; height: 36px;
+    border-radius: 50%; cursor: pointer;
+    font-size: 1.2rem; transition: background 0.2s;
+}
+
+.viewer-close:hover { background: rgba(255,80,80,0.3); }
+
+.viewer-canvas-wrap { flex: 1; position: relative; overflow: hidden; }
+.viewer-canvas-wrap canvas { width: 100%; height: 100%; display: block; }
+
+.stats-bar {
+    padding: 12px 24px;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-size: 0.85rem; color: #808098;
+}
+
+.stats-bar span { color: #c0c0d8; }
+
+@media (max-width: 768px) {
+    .gallery { padding: 20px 16px 60px; gap: 16px; }
+    header h1 { font-size: 1.8rem; }
+}
+
+.loading-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(10,10,20,0.9);
+}
+
+.spinner {
+    width: 48px; height: 48px;
+    border: 3px solid rgba(120,80,255,0.2);
+    border-top-color: #7850ff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>CFAD Face Gallery</h1>
+    <p>60 Diverse Faces &middot; 3D Gaussian Splatting &middot; Apple Silicon Processed</p>
+</header>
+
+<div class="filters" id="filters"></div>
+<div class="gallery" id="gallery"></div>
+
+<div class="viewer-overlay" id="viewerOverlay">
+    <div class="viewer-header">
+        <h2 id="viewerTitle">Loading...</h2>
+        <button class="viewer-close" onclick="closeViewer()">&times;</button>
+    </div>
+    <div class="viewer-canvas-wrap" id="viewerWrap">
+        <canvas id="viewerCanvas"></canvas>
+    </div>
+    <div class="stats-bar">
+        Gaussians: <span id="statGaussians">0</span> &middot;
+        FPS: <span id="statFPS">0</span> &middot;
+        Device: <span>MPS (Apple Silicon)</span>
+    </div>
+</div>
+
+<script type="module">
+
+// ═══════════════════════════════════════
+//  3D GAUSSIAN SPLAT RENDERER (Canvas2D)
+//  Depth-sorted alpha compositing like ml-sharp
+// ═══════════════════════════════════════
+
+class GSplatRenderer {
+    constructor(canvas, binUrl, faceId) {
+        this.canvas = canvas;
+        this.binUrl = binUrl;
+        this.faceId = faceId;
+        this.ctx = null;
+        this.N = 0;
+        this.posX = null;
+        this.posY = null;
+        this.posZ = null;
+        this.colR = null;
+        this.colG = null;
+        this.colB = null;
+        this.opacity = null;
+        this.eyeRadius = 2.5;
+        this.animAngle = Math.random() * Math.PI * 2;
+        this.fpsFrames = 0;
+        this.fpsTime = 0;
+        
+        this.init();
+    }
+    
+    async init() {
+        this.ctx = this.canvas.getContext('2d');
+        if (!this.ctx) return;
+        
+        // Load binary data
+        const resp = await fetch(this.binUrl);
+        const data = new Uint8Array(await resp.arrayBuffer());
+        
+        // Parse: positions(N*12) + colors(N*12) = N*24 bytes per Gaussian
+        // Actually: pos(3f=12B) + color(3f=12B) + opacity(3f=12B) + index(1u=4B) = 40B
+        const N = Math.floor(data.byteLength / 40);
+        this.N = N;
+        
+        const dv = new DataView(data.buffer, data.byteOffset, data.byteLength);
+        
+        // Parse positions (first N*12 bytes: all X, then all Y, then all Z)
+        // OR row-major: each Gaussian has xyzxyz...
+        // Let's try row-major first (most common)
+        this.posX = new Float32Array(N);
+        this.posY = new Float32Array(N);
+        this.posZ = new Float32Array(N);
+        
+        for (let i = 0; i < N; i++) {
+            this.posX[i] = dv.getFloat32(i * 40 + 0, true);
+            this.posY[i] = dv.getFloat32(i * 40 + 4, true);
+            this.posZ[i] = dv.getFloat32(i * 40 + 8, true);
+        }
+        
+        // Parse colors (next N*12 bytes)
+        this.colR = new Float32Array(N);
+        this.colG = new Float32Array(N);
+        this.colB = new Float32Array(N);
+        
+        for (let i = 0; i < N; i++) {
+            this.colR[i] = dv.getFloat32(i * 40 + 12, true);
+            this.colG[i] = dv.getFloat32(i * 40 + 16, true);
+            this.colB[i] = dv.getFloat32(i * 40 + 20, true);
+        }
+        
+        // Parse opacity (next N*12 bytes, repeated 3x for alignment)
+        this.opacity = new Float32Array(N);
+        for (let i = 0; i < N; i++) {
+            this.opacity[i] = dv.getFloat32(i * 40 + 24, true);
+        }
+        
+        // Clamp colors to [0, 1] range - face images are RGB in [0, 1]
+        for (let i = 0; i < N; i++) {
+            this.colR[i] = Math.max(0, Math.min(1, this.colR[i]));
+            this.colG[i] = Math.max(0, Math.min(1, this.colG[i]));
+            this.colB[i] = Math.max(0, Math.min(1, this.colB[i]));
+            // Opacity should be in [0, 1]
+            this.opacity[i] = Math.max(0, Math.min(1, this.opacity[i]));
+        }
+        
+        // Update stats
+        const gsEl = document.getElementById('statGaussians');
+        if (gsEl) gsEl.textContent = this.N.toLocaleString();
+        
+        this.startRenderLoop();
+    }
+    
+    // Project 3D point to 2D screen space with perspective camera
+    project(x, y, z, viewWidth, viewHeight) {
+        // Camera setup: orbit around the face
+        const eyeX = Math.sin(this.animAngle) * this.eyeRadius;
+        const eyeZ = Math.cos(this.animAngle) * this.eyeRadius;
+        const eyeY = 0.3;
+        
+        // Camera to center vector
+        let cx = x - eyeX, cy = y - eyeY, cz = z - eyeZ;
+        let camLen = Math.sqrt(cx*cx + cy*cy + cz*cz);
+        
+        // Forward direction (normalized)
+        let fx = cx / camLen, fy = cy / camLen, fz = cz / camLen;
+        
+        // Right vector (cross product of forward and up)
+        let rx = fy * 0.0 - fz * 1.0;  // Simplified: up is [0, 1, 0]
+        let ry = fz * 0.0 - fx * 0.0;
+        let rz = fx * 1.0 - fy * 0.0;
+        let rLen = Math.sqrt(rx*rx + ry*ry + rz*rz);
+        if (rLen > 0.001) { rx /= rLen; ry /= rLen; rz /= rLen; }
+        else { rx = 1; ry = 0; rz = 0; }
+        
+        // Up vector (cross product of right and forward)
+        let ux = ry * fz - rz * fy;
+        let uy = rz * fx - rx * fz;
+        let uz = rx * fy - ry * fx;
+        
+        // Transform point to camera space
+        let px = x - eyeX, py = y - eyeY, pz = z - eyeZ;
+        
+        // Project onto camera axes
+        let depth = -(px * fx + py * fy + pz * fz);  // Distance from camera
+        if (depth < 0.1) depth = 0.1;  // Near clip
+        
+        let halfFovH = Math.tan(Math.PI / 8);  // 45 degree FOV
+        let halfFovV = halfFovH;
+        
+        let screenX = (px * rx + py * ry + pz * rz) / depth / halfFovH;
+        let screenY = (px * ux + py * uy + pz * uz) / depth / halfFovV;
+        
+        // Convert to screen coordinates
+        let sx = (screenX * 0.5 + 0.5) * viewWidth;
+        let sy = (-screenY * 0.5 + 0.5) * viewHeight;
+        
+        return { sx, sy, depth };
+    }
+    
+    startRenderLoop() {
+        const ctx = this.ctx;
+        if (!ctx) return;
+        
+        let lastTime = 0;
+        
+        const self = this;
+        function render(timestamp) {
+            // FPS counter
+            if (self.fpsTime === 0) self.fpsTime = timestamp;
+            self.fpsFrames++;
+            if (timestamp - self.fpsTime > 500) {
+                const fps = Math.round(self.fpsFrames / ((timestamp - self.fpsTime) / 1000));
+                const fpsEl = document.getElementById('statFPS');
+                if (fpsEl) fpsEl.textContent = Math.min(fps, 60);
+                self.fpsFrames = 0;
+                self.fpsTime = timestamp;
+            }
+            
+            const dpr = window.devicePixelRatio || 1;
+            let displayWidth, displayHeight;
+            
+            if (self.canvas.width === 560) {
+                displayWidth = 560 * dpr;
+                displayHeight = 480 * dpr;
+            } else {
+                const wrap = self.canvas.parentElement;
+                displayWidth = (wrap ? wrap.clientWidth : 800) * dpr;
+                displayHeight = (self.canvas.parentElement ? self.canvas.parentElement.clientHeight : 600) * dpr;
+            }
+            
+            if (self.canvas.width !== displayWidth || self.canvas.height !== displayHeight) {
+                self.canvas.width = displayWidth;
+                self.canvas.height = displayHeight;
+            }
+            
+            // Orbit animation with different speeds for gallery vs viewer
+            self.animAngle += 0.015;
+            
+            const W = displayWidth;
+            const H = displayHeight;
+            
+            // Clear background
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, W, H);
+            
+            const N = self.N;
+            if (N === 0) return;
+            
+            // Project all Gaussians and compute screen-space radius
+            const projected = new Array(N);
+            
+            for (let i = 0; i < N; i++) {
+                const proj = self.project(self.posX[i], self.posY[i], self.posZ[i], W, H);
+                
+                // Compute Gaussian size in screen space (approximate based on depth)
+                const scale = Math.max(2, 40 / proj.depth);
+                
+                projected[i] = {
+                    sx: proj.sx,
+                    sy: proj.sy,
+                    depth: proj.depth,
+                    size: scale,
+                    r: self.colR[i],
+                    g: self.colG[i],
+                    b: self.colB[i],
+                    opacity: self.opacity[i]
+                };
+            }
+            
+            // Sort by depth (back to front) - critical for proper alpha compositing
+            projected.sort((a, b) => a.depth - b.depth);
+            
+            // Render each Gaussian as a filled circle with color and alpha
+            for (let i = 0; i < N; i++) {
+                const p = projected[i];
+                
+                // Skip if off-screen
+                if (p.sx < -p.size * 2 || p.sx > W + p.size * 2 ||
+                    p.sy < -p.size * 2 || p.sy > H + p.size * 2) continue;
+                
+                // Skip transparent Gaussians
+                if (p.opacity < 0.01) continue;
+                
+                // Draw Gaussian as a soft circle (splat)
+                ctx.beginPath();
+                ctx.arc(p.sx, p.sy, p.size * 2, 0, Math.PI * 2);
+                
+                // Create radial gradient for soft splat effect
+                const grad = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, p.size * 2);
+                
+                const r = Math.round(p.r * 255);
+                const g = Math.round(p.g * 255);
+                const b = Math.round(p.b * 255);
+                
+                // Center is fully opaque with color
+                grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${p.opacity.toFixed(3)})`);
+                // Edges fade to transparent (Gaussian falloff)
+                grad.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${(p.opacity * 0.3).toFixed(3)})`);
+                grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+                
+                ctx.fillStyle = grad;
+                ctx.fill();
+            }
+            
+            requestAnimationFrame(render);
+        }
+        
+        requestAnimationFrame(render);
+    }
+}
+
+// ═══════════════════════════════════════
+//  CATALOG LOADING & GALLERY BUILDER
+// ═══════════════════════════════════════
+
+const CATALOG_URL = 'catalog.json';
+let catalogData = null;
+let faces = [];
+
+async function loadCatalog() {
+    const resp = await fetch(CATALOG_URL);
+    catalogData = await resp.json();
+    
+    faces = Object.values(catalogData.faces).sort((a, b) => a.id.localeCompare(b.id));
+    
+    buildFilters();
+    buildGallery();
+}
+
+// ═══════════════════════════════════════
+//  FILTER BUTTONS
+// ═══════════════════════════════════════
+
+const DEMOGRAPHICS = {
+    'all': 'All Faces (60)',
+    'WF': 'White Female (34)',
+    'WM': 'White Male (15)',
+    'LF': 'Latino Female (7)',
+    'LM': 'Latino Male',
+    'BF': 'Black Female',
+    'BM': 'Black Male',
+    'AF': 'Asian Female',
+    'AM': 'Asian Male'
+};
+
+let activeFilter = 'all';
+
+function buildFilters() {
+    const container = document.getElementById('filters');
+    
+    Object.entries(DEMOGRAPHICS).forEach(([code, label]) => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (code === activeFilter ? ' active' : '');
+        btn.textContent = label;
+        btn.onclick = () => {
+            activeFilter = code;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterGallery();
+        };
+        container.appendChild(btn);
+    });
+}
+
+function filterGallery() {
+    const cards = document.querySelectorAll('.face-card');
+    cards.forEach(card => {
+        const id = card.dataset.id;
+        if (activeFilter === 'all' || id.startsWith(activeFilter)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// ═══════════════════════════════════════
+//  GALLERY GRID
+// ═══════════════════════════════════════
+
+function buildGallery() {
+    const gallery = document.getElementById('gallery');
+    
+    faces.forEach(face => {
+        const card = document.createElement('div');
+        card.className = 'face-card';
+        card.dataset.id = face.id;
+        
+        const canvas = document.createElement('canvas');
+        canvas.width = 560;
+        canvas.height = 480;
+        
+        const info = document.createElement('div');
+        info.className = 'face-info';
+        info.innerHTML = `
+            <div class="face-id">${face.id}</div>
+            <div class="face-meta">
+                <span class="face-gender">${face.gender}</span>
+                <span class="face-tag">15K Gaussians</span>
+            </div>
+        `;
+        
+        card.appendChild(canvas);
+        card.appendChild(info);
+        gallery.appendChild(card);
+        
+        const binUrl = `outputs/faces/${face.id}/${face.id}.bin`;
+        
+        let rendererStarted = false;
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !rendererStarted) {
+                    rendererStarted = true;
+                    new GSplatRenderer(canvas, binUrl, face.id);
+                }
+            });
+        }, { rootMargin: '200px' });
+        
+        observer.observe(card);
+        
+        card.addEventListener('click', () => openViewer(face));
+    });
+}
+
+// ═══════════════════════════════════════
+//  FULL VIEWER
+// ═══════════════════════════════════════
+
+let currentRenderer = null;
+let currentFaceId = null;
+
+function openViewer(face) {
+    currentFaceId = face.id;
+    
+    const overlay = document.getElementById('viewerOverlay');
+    overlay.classList.add('active');
+    
+    document.getElementById('viewerTitle').textContent = `${face.id} - ${face.gender}`;
+    
+    const canvas = document.getElementById('viewerCanvas');
+    
+    if (currentRenderer) {
+        currentRenderer = null;
+    }
+    
+    const binUrl = `outputs/faces/${face.id}/${face.id}.bin`;
+    
+    requestAnimationFrame(() => {
+        currentRenderer = new GSplatRenderer(canvas, binUrl, face.id);
+    });
+}
+
+function closeViewer() {
+    document.getElementById('viewerOverlay').classList.remove('active');
+    
+    if (currentRenderer) {
+        currentRenderer = null;
+    }
+    
+    currentFaceId = null;
+}
+
+// Expose to global scope for onclick handler
+window.closeViewer = closeViewer;
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+
+loadCatalog();
+
+</script>
+</body>
+</html>
