@@ -2,6 +2,8 @@
 
 Run FaceLift inference on all 120 CFAD faces on the PARCC Betty cluster, then pull the `.ply` Gaussian-splat files back to your Mac.
 
+> **New here?** Read `PLAYBOOK.md` first — it's the engineering harness doc with every roadblock we've hit and how to skip it. Run `bash doctor.sh` any time you want a mechanical sanity check.
+
 ## What this package contains
 
 | file | purpose |

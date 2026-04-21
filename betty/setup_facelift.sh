@@ -16,6 +16,17 @@ echo "  FaceLift:  ${FACELIFT_REPO}"
 
 mkdir -p "${PROJECT_ROOT}/envs" "${FP_ROOT}" "${FP_ROOT}/outputs" "${FP_ROOT}/hf_cache"
 
+# Lmod (`module` command) is defined by /etc/profile.d/Z98-lmod.sh on Betty — only
+# sourced for login shells. When we run this script via `ssh 'bash ...'`, bash is
+# non-login, so we must source it ourselves.
+if ! command -v module >/dev/null 2>&1; then
+  if [ -f /etc/profile.d/Z98-lmod.sh ]; then
+    source /etc/profile.d/Z98-lmod.sh
+  elif [ -f /usr/share/lmod/lmod/init/bash ]; then
+    source /usr/share/lmod/lmod/init/bash
+  fi
+fi
+
 # --- Modules (needed for diff-gaussian-rasterization's CUDA compile) ---
 module purge
 module load anaconda3/2023.09-0

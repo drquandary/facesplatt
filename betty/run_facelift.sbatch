@@ -25,6 +25,10 @@ echo "=== Job ${SLURM_JOB_ID} on $(hostname) at $(date) ==="
 echo "=== GPUs: ${CUDA_VISIBLE_DEVICES:-none} ==="
 mkdir -p logs "${OUTPUT_DIR}" "${HF_CACHE}" "${HF_CACHE}/u2net"
 
+if ! command -v module >/dev/null 2>&1; then
+  [ -f /etc/profile.d/Z98-lmod.sh ] && source /etc/profile.d/Z98-lmod.sh
+fi
+
 # --- Modules ---
 module purge
 module load anaconda3/2023.09-0
