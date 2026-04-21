@@ -4,10 +4,9 @@
 # Safe to re-run; skips steps that already completed.
 set -euo pipefail
 
-BETTY_PROJECT="${BETTY_PROJECT:-jvadala-facesplatt}"
-PROJECT_ROOT="/vast/projects/${BETTY_PROJECT}"
-FP_ROOT="${PROJECT_ROOT}/facesplatt"
-ENV_PATH="${PROJECT_ROOT}/envs/facelift"
+FP_ROOT="${BETTY_ROOT:-/vast/home/j/jvadala/facesplatt}"
+ENV_PATH="${FP_ROOT}/envs/facelift"
+PROJECT_ROOT="${FP_ROOT}"
 FACELIFT_REPO="${FP_ROOT}/FaceLift"
 
 echo "▶ Betty FaceLift setup"

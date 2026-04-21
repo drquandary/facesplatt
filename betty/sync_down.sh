@@ -4,9 +4,8 @@
 set -euo pipefail
 
 BETTY_USER="${BETTY_USER:-jvadala}"
-BETTY_PROJECT="${BETTY_PROJECT:-jvadala-facesplatt}"
 BETTY_HOST="${BETTY_HOST:-login.betty.parcc.upenn.edu}"
-REMOTE_ROOT="/vast/projects/${BETTY_PROJECT}/facesplatt"
+REMOTE_ROOT="${BETTY_ROOT:-/vast/home/j/jvadala/facesplatt}"
 
 mkdir -p splats previews
 

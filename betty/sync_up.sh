@@ -4,9 +4,9 @@
 set -euo pipefail
 
 BETTY_USER="${BETTY_USER:-jvadala}"
-BETTY_PROJECT="${BETTY_PROJECT:-jvadala-facesplatt}"
 BETTY_HOST="${BETTY_HOST:-login.betty.parcc.upenn.edu}"
-REMOTE_ROOT="/vast/projects/${BETTY_PROJECT}/facesplatt"
+# No ColdFront project yet — use home dir. Override with BETTY_ROOT if a project gets allocated.
+REMOTE_ROOT="${BETTY_ROOT:-/vast/home/j/jvadala/facesplatt}"
 
 echo "▶ rsync local → Betty:${REMOTE_ROOT}"
 

@@ -12,14 +12,13 @@
 # facesplatt / FaceLift — process all cfad/*.png → outputs/<image>/gaussians.ply
 set -euo pipefail
 
-BETTY_PROJECT="${BETTY_PROJECT:-jvadala-facesplatt}"
-PROJECT_ROOT="/vast/projects/${BETTY_PROJECT}"
-FP_ROOT="${PROJECT_ROOT}/facesplatt"
-ENV_PATH="${PROJECT_ROOT}/envs/facelift"
+FP_ROOT="${BETTY_ROOT:-/vast/home/j/jvadala/facesplatt}"
+ENV_PATH="${FP_ROOT}/envs/facelift"
 FACELIFT_REPO="${FP_ROOT}/FaceLift"
 
-INPUT_DIR="${FP_ROOT}/cfad"
-OUTPUT_DIR="${FP_ROOT}/outputs"
+# Override INPUT_DIR via --export to sbatch for smoke-test runs.
+INPUT_DIR="${INPUT_DIR:-${FP_ROOT}/cfad}"
+OUTPUT_DIR="${OUTPUT_DIR:-${FP_ROOT}/outputs}"
 HF_CACHE="${FP_ROOT}/hf_cache"
 
 echo "=== Job ${SLURM_JOB_ID} on $(hostname) at $(date) ==="

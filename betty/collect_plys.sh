@@ -2,8 +2,7 @@
 # Flatten outputs/<image>/gaussians.ply → splats/<image>.ply for clean rsync download.
 set -euo pipefail
 
-BETTY_PROJECT="${BETTY_PROJECT:-jvadala-facesplatt}"
-FP_ROOT="/vast/projects/${BETTY_PROJECT}/facesplatt"
+FP_ROOT="${BETTY_ROOT:-/vast/home/j/jvadala/facesplatt}"
 OUT="${FP_ROOT}/outputs"
 DEST="${FP_ROOT}/splats"
 
