@@ -20,11 +20,14 @@ mkdir -p "${PROJECT_ROOT}/envs" "${FP_ROOT}" "${FP_ROOT}/outputs" "${FP_ROOT}/hf
 # sourced for login shells. When we run this script via `ssh 'bash ...'`, bash is
 # non-login, so we must source it ourselves.
 if ! command -v module >/dev/null 2>&1; then
+  # Lmod init script references FPATH — fine normally, but our `set -u` flags it.
+  set +u
   if [ -f /etc/profile.d/Z98-lmod.sh ]; then
     source /etc/profile.d/Z98-lmod.sh
   elif [ -f /usr/share/lmod/lmod/init/bash ]; then
     source /usr/share/lmod/lmod/init/bash
   fi
+  set -u
 fi
 
 # --- Modules (needed for diff-gaussian-rasterization's CUDA compile) ---
@@ -69,7 +72,8 @@ pip install \
 pip install Pillow==10.4.0 opencv-python==4.10.0.84 \
   scikit-image==0.21.0 lpips==0.1.4
 pip install facenet-pytorch --no-deps
-pip install rembg
+pip install rembg onnxruntime
+pip install videoio==0.3.0 ffmpeg-python==0.2.0
 
 # Numeric
 pip install numpy==1.26.4 matplotlib==3.7.5 scikit-learn==1.3.2 \
@@ -79,8 +83,35 @@ pip install numpy==1.26.4 matplotlib==3.7.5 scikit-learn==1.3.2 \
 pip install easydict==1.13 pyyaml==6.0.2 \
   termcolor==2.4.0 plyfile==1.0.3 tqdm rich
 
-# The CUDA-compiled rasterizer — requires cuda/gcc modules to be loaded (done above)
-pip install git+https://github.com/graphdeco-inria/diff-gaussian-rasterization
+# The CUDA-compiled rasterizer.
+# R14: --no-build-isolation because setup.py imports torch at top; isolated build
+#      venvs have no torch → ModuleNotFoundError.
+# R15: TORCH_CUDA_ARCH_LIST required because login nodes have no GPU, so torch
+#      can't auto-detect arch → IndexError in _get_cuda_arch_flags. Value covers
+#      A100/H100/L40 natively; B200 (Blackwell sm_100) falls through to PTX JIT.
+# R16: The 2023-era headers don't `#include <cstdint>`. CUDA 12.4 tolerated it;
+#      CUDA 12.8's stricter STL headers reject `std::uintptr_t` / `uint32_t`.
+#      Clone locally, inject the include, install from path.
+export TORCH_CUDA_ARCH_LIST="8.0;8.6;9.0+PTX"
+pip install --no-build-isolation ninja
+
+DGR_DIR="${FP_ROOT}/dgr"
+if [ ! -d "${DGR_DIR}" ]; then
+  git clone --recursive https://github.com/graphdeco-inria/diff-gaussian-rasterization "${DGR_DIR}"
+fi
+cd "${DGR_DIR}"
+for f in cuda_rasterizer/*.h cuda_rasterizer/*.cu rasterize_points.h rasterize_points.cu; do
+  [ -f "$f" ] || continue
+  if ! grep -q "#include <cstdint>" "$f"; then
+    if grep -q "#pragma once" "$f"; then
+      sed -i '/#pragma once/a #include <cstdint>' "$f"
+    else
+      sed -i '1i #include <cstdint>' "$f"
+    fi
+  fi
+done
+pip install --no-build-isolation --no-cache-dir .
+cd - >/dev/null
 
 echo "✓ python packages installed"
 

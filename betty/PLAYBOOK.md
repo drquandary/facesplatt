@@ -234,6 +234,57 @@ export U2NET_HOME=${BETTY_ROOT}/hf_cache/u2net
 
 Billing weight of `b200-mig45` is 250 vs 1000 for full B200 — use MIG when you can.
 
+### R14. `diff-gaussian-rasterization` pip build fails with `ModuleNotFoundError: No module named 'torch'`
+
+**Symptom:** `Getting requirements to build wheel: finished with status 'error'` → Traceback pointing at `import torch` inside setup.py → `ModuleNotFoundError`.
+
+**Cause:** PEP 517 build isolation. pip runs the build in a throwaway `/tmp/pip-build-env-*` venv that only contains what's declared in `pyproject.toml`. The project's `setup.py` does `import torch` at module top to read `torch.utils.cpp_extension.CUDAExtension`, but the build env has no torch.
+
+**Fix** (baked into `setup_facelift.sh`):
+```bash
+pip install --no-build-isolation ninja setuptools wheel
+pip install --no-build-isolation git+...diff-gaussian-rasterization
+```
+
+### R15. CUDA-extension build fails with `IndexError: list index out of range` in `_get_cuda_arch_flags`
+
+**Symptom:** Build gets past `--no-build-isolation`, compiler starts, then:
+```
+File ".../torch/utils/cpp_extension.py", line 1985, in _get_cuda_arch_flags
+    arch_list[-1] += '+PTX'
+    ~~~~~~~~~^^^^
+IndexError: list index out of range
+```
+
+**Cause:** Login nodes have **no GPU**. PyTorch auto-detects arch by querying the device; with no device, `arch_list` is empty, and `arch_list[-1]` raises. The build script has no fallback.
+
+**Fix:** Set `TORCH_CUDA_ARCH_LIST` explicitly before pip install. For B200 clusters:
+```bash
+export TORCH_CUDA_ARCH_LIST="8.0;8.6;9.0+PTX"
+```
+This compiles native code for A100/H100/L40 and a PTX fallback that newer arches (Blackwell B200 sm_100) JIT-compile at runtime. Baked into `setup_facelift.sh`.
+
+### R16. `diff-gaussian-rasterization` compile fails with `namespace "std" has no member "uintptr_t"` / `identifier "uint32_t" is undefined`
+
+**Symptom:** nvcc compiles, then errors in `cuda_rasterizer/rasterizer_impl.h`:
+```
+error: namespace "std" has no member "uintptr_t"
+error: identifier "uint32_t" is undefined
+```
+
+**Cause:** The 2023-era dgr headers don't `#include <cstdint>`. CUDA 12.4's STL headers transitively pulled it in; CUDA 12.8's stricter headers don't. Upstream hasn't patched it.
+
+**Fix** (baked into `setup_facelift.sh`): clone locally, inject the include in every header/cu file that uses uint32_t / uintptr_t, install from the patched path:
+
+```bash
+git clone --recursive https://github.com/graphdeco-inria/diff-gaussian-rasterization dgr
+cd dgr
+for f in cuda_rasterizer/*.h cuda_rasterizer/*.cu rasterize_points.{h,cu}; do
+  grep -q "#include <cstdint>" "$f" || sed -i '/#pragma once/a #include <cstdint>' "$f"
+done
+pip install --no-build-isolation --no-cache-dir .
+```
+
 ### R13. Kerberos ticket expires mid-job
 
 **Symptom:** After ~10 h, `rsync`/`ssh` starts prompting for password.
