@@ -2,3 +2,8 @@
 .playwright-mcp/
 test-*.png
 node_modules/
+# 3DGS outputs — ~38 MB each × 120 = too big for git. Host separately (HF dataset, S3).
+splats/
+*.ply
+# Preview renders from FaceLift
+previews/
