@@ -285,6 +285,68 @@ done
 pip install --no-build-isolation --no-cache-dir .
 ```
 
+### R17. At runtime: `CUDA error: no kernel image is available for execution on the device`
+
+**Symptom:** Job actually runs on GPU, loads the diffusion pipeline, then crashes when diffusers calls `enable_xformers_memory_efficient_attention()`.
+
+**Cause:** **xformers 0.0.27** was compiled with arch flags up through SM 9.0 (H100 / Hopper). Betty's dgx-b200 is **SM 10.0 (Blackwell)** — xformers has neither a compiled binary nor a PTX fallback for it.
+
+**Fix:** Skip the xformers call; diffusers auto-falls-back to PyTorch's native `F.scaled_dot_product_attention` (SDPA), which works on every arch. ~20% slower but robust. `setup_facelift.sh` now patches FaceLift's `inference.py` to comment out the single line:
+
+```python
+# diffusion_pipeline.unet.enable_xformers_memory_efficient_attention()
+```
+
+Long-term alternative: rebuild xformers from source with `TORCH_CUDA_ARCH_LIST=10.0` once xformers HEAD has Blackwell support, or bump to xformers 0.0.28+ when it lands.
+
+### R18. Runtime crash: `Codec libx264 is not available in the installed ffmpeg`
+
+**Symptom:** Job runs, produces first `gaussians.ply`, then dies:
+```
+ValueError: Codec libx264 is not available in the installed ffmpeg version.
+HINT: For conda users, run `conda remove ffmpeg` and `conda install ffmpeg x264 -c conda-forge`
+```
+Next faces in the batch never process.
+
+**Cause:** FaceLift's `imageseq2video()` calls `videoio.videosave(..., codec='libx264')`, but the ffmpeg we pulled from conda-forge was built without libx264 support. Even if you install `x264` separately, `videoio` won't always rediscover the codec.
+
+**Fix** (baked in): skip the turntable entirely. `fix_skip_turntable.py` removes both `render_turntable(...)` and `imageseq2video(...)` from FaceLift's `inference.py`. Upsides:
+- Saves ~5 MB `.mp4` per face × 120 faces = ~600 MB quota.
+- Saves `render_turntable()` GPU time (150 view renders per face).
+- Breaks no downstream — we only need `gaussians.ply`.
+
+### R19. PyTorch 2.4 has no Blackwell (SM 10.0) kernels — upgrade to 2.7 cu128
+
+**Symptom:** Job reaches GPU, tries a trivial tensor op, crashes:
+```
+NVIDIA B200 with CUDA capability sm_100 is not compatible with the current PyTorch installation.
+The current PyTorch install supports CUDA capabilities sm_50 sm_60 sm_70 sm_75 sm_80 sm_86 sm_90.
+```
+
+**Cause:** FaceLift pins `torch==2.4.0` with cu124. Those wheels pre-date Blackwell; they only have kernels through Hopper (SM 9.0).
+
+**Fix** (baked into `setup_facelift.sh`): install torch 2.7.0 cu128 + matching xformers 0.0.30, and rebuild diff-gaussian-rasterization against the new ABI:
+```bash
+pip install --no-cache-dir torch==2.7.0 torchvision==0.22.0 \
+  --index-url https://download.pytorch.org/whl/cu128
+pip install --no-cache-dir xformers==0.0.30
+# rebuild dgr against new torch ABI — reuses our patched clone
+pip install --no-build-isolation --no-cache-dir --force-reinstall ${FP_ROOT}/dgr
+```
+
+### R20. Home quota (50 GB) won't fit all 120 outputs — stream them back incrementally
+
+**Symptom:** Full 120-face run would generate ~4.6 GB of `.ply` files + ~600 MB of intermediate PNGs. With env (~12 GB) + HF cache (~5 GB) already using 45 GB, peak usage exceeds the 50 GB quota.
+
+**Fix:** run `betty/incremental_pull.sh` on your Mac in parallel with the sbatch job. It polls remote `outputs/` every 60 s, rsyncs any fully-written `gaussians.ply` to local `splats/`, then `rm -rf`'s the remote per-face dir. Betty never holds more than ~2 complete faces at once, quota stays flat.
+
+```bash
+# On your Mac, in a separate terminal:
+bash betty/incremental_pull.sh   # runs until you Ctrl-C or job finishes
+```
+
+Combined with `fix_skip_turntable.py` this cuts the peak remote footprint by ~40 MB per in-flight face.
+
 ### R13. Kerberos ticket expires mid-job
 
 **Symptom:** After ~10 h, `rsync`/`ssh` starts prompting for password.

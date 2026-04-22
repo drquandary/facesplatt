@@ -115,6 +115,13 @@ cd - >/dev/null
 
 echo "✓ python packages installed"
 
+# R18: Betty's conda-forge ffmpeg has no libx264; videoio.videosave() fails
+# with ValueError. FaceLift's imageseq2video is only for the demo turntable
+# .mp4 — we only care about gaussians.ply. Patch inference.py to skip both
+# render_turntable() and imageseq2video() entirely.
+export FACELIFT_REPO
+python3 "$(dirname "${BASH_SOURCE[0]}")/fix_skip_turntable.py" 2>/dev/null || true
+
 # --- Quick sanity check ---
 python - <<'PY'
 import torch

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=facelift_cfad
-#SBATCH --partition=b200-mig45
-#SBATCH --qos=mig
+#SBATCH --partition=dgx-b200
+#SBATCH --qos=normal
 #SBATCH --gpus=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
