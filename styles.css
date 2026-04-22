@@ -295,6 +295,26 @@ kbd {
 }
 .viewer-close:hover { background: rgba(255,255,255,0.15); }
 
+.viewer-headtrack {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  height: 36px;
+  border-radius: 18px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.viewer-headtrack:hover { background: rgba(255,255,255,0.15); }
+.viewer-headtrack.active {
+  background: #fff;
+  color: #0b0b0d;
+  border-color: #fff;
+}
+
 .viewer-canvas {
   flex: 1;
   width: 100%;

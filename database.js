@@ -1,7 +1,7 @@
 // Academic database page — loads manifest, renders filterable grid of faces,
 // opens a 3DGS viewer modal on click.
 
-import { openSplatViewer, closeSplatViewer } from './splat-viewer.js';
+import { openSplatViewer, closeSplatViewer, toggleHeadTracking } from './splat-viewer.js';
 
 const state = {
   manifest: [],
@@ -85,6 +85,7 @@ function wireFilters() {
 
 function wireViewer() {
   $('viewer-close').addEventListener('click', closeSplatViewer);
+  $('viewer-headtrack').addEventListener('click', toggleHeadTracking);
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeSplatViewer();
   });

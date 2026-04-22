@@ -85,8 +85,10 @@
   <div class="viewer-hud">
     <div class="viewer-id" id="viewer-id"></div>
     <div class="viewer-meta" id="viewer-meta"></div>
+    <button class="viewer-headtrack" id="viewer-headtrack" title="Head-tracked parallax (webcam)">⦿ Head track</button>
     <button class="viewer-close" id="viewer-close" aria-label="Close viewer">×</button>
   </div>
+  <video id="headtrack-video" autoplay muted playsinline style="position:absolute;bottom:16px;right:16px;width:140px;height:105px;border:1px solid rgba(255,255,255,0.3);border-radius:4px;display:none;transform:scaleX(-1);z-index:3;"></video>
   <div class="viewer-canvas" id="viewer-canvas"></div>
   <div class="viewer-status" id="viewer-status">loading splat…</div>
   <div class="viewer-controls">
