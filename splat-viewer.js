@@ -157,13 +157,15 @@ function trackLoop() {
   // Convert eye normalized position → azimuth/elevation around target.
   // Gain chosen so small head movement yields noticeable parallax without
   // looking jittery. Clamp to ±35° so we never see the back of the head.
-  const maxAzim = Math.PI * 35 / 180;
-  const maxElev = Math.PI * 25 / 180;
+  // Gain tuned for snappy parallax. Clamp so we never swing behind the head.
+  const maxAzim = Math.PI * 65 / 180; // ~65° either side
+  const maxElev = Math.PI * 40 / 180; // ~40° up/down
   // Head right → camera moves right (natural parallax: revealing the subject's
   // left side, which sits on screen-right). p.x is already normalized so
   // positive = user's head is to the right.
-  const azim = p.x * maxAzim;
-  const elev = p.y * maxElev;
+  const gain = 1.8; // amplify head movement beyond its natural range
+  const azim = Math.max(-maxAzim, Math.min(maxAzim, p.x * gain * maxAzim));
+  const elev = Math.max(-maxElev, Math.min(maxElev, p.y * gain * maxElev));
 
   const d = baseCam.distance;
   const x = d * Math.sin(azim) * Math.cos(elev);

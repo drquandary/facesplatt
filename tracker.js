@@ -19,7 +19,7 @@ export class HeadTracker {
     this.video = null;
     this.pos = { x: 0, y: 0, z: 0.6 }; // smoothed, normalized screen-space eye pos
     this.raw = { x: 0, y: 0, z: 0.6 };
-    this.smoothing = 0.15; // lower = smoother but more latency
+    this.smoothing = 0.5; // lower = smoother but more latency; 0.5 = snappy, still stable
     this.lastStamp = -1;
     this.onUpdate = null;
     this.lost = true;
