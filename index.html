@@ -3,39 +3,107 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>facesplatt · holographic face splat gallery</title>
-<style>
-  html, body { margin: 0; height: 100%; background: #05060a; color: #e8ecf5; font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; overflow: hidden; }
-  #stage { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
-  #status { position: fixed; top: 10px; left: 12px; font-size: 12px; opacity: 0.75; pointer-events: none; z-index: 10; }
-  #hud    { position: fixed; bottom: 10px; left: 12px; font-size: 12px; opacity: 0.75; pointer-events: none; z-index: 10; letter-spacing: 0.04em; }
-  #webcam-wrap { position: fixed; bottom: 12px; right: 12px; width: 160px; height: 120px; border: 1px solid #2a2f3e; border-radius: 6px; overflow: hidden; z-index: 10; background: #111; }
-  #webcam-wrap.hidden { display: none; }
-  #webcam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
-  #help {
-    position: fixed; top: 40px; left: 12px; font-size: 12px; background: rgba(10,12,18,0.85);
-    border: 1px solid #2a2f3e; border-radius: 6px; padding: 10px 12px; z-index: 10; line-height: 1.6;
-  }
-  #help.hidden { display: none; }
-  #help kbd { background:#1a1e2a; border:1px solid #2a2f3e; border-radius:3px; padding:0 5px; font-family: ui-monospace, monospace; }
-  a { color: #8ab4ff; }
-</style>
+<title>CFAD · 3D Gaussian Splat Reconstruction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <canvas id="stage"></canvas>
-  <div id="status">booting…</div>
-  <div id="hud"></div>
-  <div id="help">
-    <div><strong>facesplatt</strong> — head-tracked face splat gallery</div>
-    <div><kbd>←</kbd> / <kbd>→</kbd>  prev / next face</div>
-    <div><kbd>G</kbd>  gallery mode (single face)</div>
-    <div><kbd>C</kbd>  concert mode (crowd of all faces)</div>
-    <div><kbd>W</kbd>  enable webcam head tracking</div>
-    <div><kbd>D</kbd>  toggle depth mask view</div>
-    <div><kbd>H</kbd>  toggle this help</div>
-    <div style="opacity:0.6; margin-top:6px;">(mouse moves camera while webcam is off)</div>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-eyebrow">Chicago Face Database × FaceLift (ICCV 2025)</div>
+    <h1 class="masthead-title">
+      CFAD / 3DGS
+      <span class="masthead-subtitle">Single-image 3D Gaussian Splat reconstruction of 116 face portraits</span>
+    </h1>
+    <div class="masthead-meta">
+      <span><strong>116</strong> subjects · <strong>4.2 GB</strong> total · <strong>~38 MB</strong> per splat</span>
+      <span class="masthead-sep">·</span>
+      <span>Reconstruction: FaceLift (Lyu, Zhou, Yang, Shu, UC Merced / Adobe Research)</span>
+      <span class="masthead-sep">·</span>
+      <span>Inference: NVIDIA B200 · PARCC Betty HPC</span>
+    </div>
   </div>
-  <div id="webcam-wrap" class="hidden"><video id="webcam" autoplay muted playsinline></video></div>
-  <script type="module" src="./main.js"></script>
+</header>
+
+<nav class="filters">
+  <div class="filters-inner">
+    <div class="filter-group">
+      <span class="filter-label">Race</span>
+      <button class="chip active" data-filter="race" data-value="all">All</button>
+      <button class="chip" data-filter="race" data-value="Asian">Asian</button>
+      <button class="chip" data-filter="race" data-value="Black">Black</button>
+      <button class="chip" data-filter="race" data-value="Latino">Latino</button>
+      <button class="chip" data-filter="race" data-value="White">White</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Sex</span>
+      <button class="chip active" data-filter="sex" data-value="all">All</button>
+      <button class="chip" data-filter="sex" data-value="Female">Female</button>
+      <button class="chip" data-filter="sex" data-value="Male">Male</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Pose</span>
+      <button class="chip active" data-filter="pose" data-value="all">All</button>
+      <button class="chip" data-filter="pose" data-value="frontal">Frontal</button>
+      <button class="chip" data-filter="pose" data-value="profile">Profile</button>
+    </div>
+    <div class="filter-spacer"></div>
+    <div class="filter-count" id="count">—</div>
+  </div>
+</nav>
+
+<main class="grid" id="grid"></main>
+
+<footer class="method">
+  <div class="method-inner">
+    <h2>Methodology</h2>
+    <p>
+      Each portrait from the Chicago Face Database is reconstructed as a 3D Gaussian Splat using
+      <a href="https://github.com/weijielyu/FaceLift">FaceLift</a>
+      (Lyu et al., ICCV 2025): multi-view diffusion synthesises 6 novel views from the single input image,
+      then a GS-LRM transformer predicts ~500k Gaussian primitives with position, opacity, scale, rotation,
+      and spherical-harmonic colour.
+    </p>
+    <p>
+      Inference was run on a single NVIDIA B200 GPU on UPenn's PARCC Betty cluster. End-to-end pipeline
+      (2D portrait → 3D splat) averages ~30 s per subject. Click any face above to load its splat in an
+      interactive 3D viewer.
+    </p>
+    <p class="method-links">
+      <a href="holo.html">→ Head-tracked holographic gallery (point-cloud prototype)</a>
+      ·
+      <a href="https://github.com/drquandary/facesplatt">Source on GitHub</a>
+    </p>
+  </div>
+</footer>
+
+<!-- Splat viewer overlay -->
+<div id="viewer" class="viewer hidden">
+  <div class="viewer-hud">
+    <div class="viewer-id" id="viewer-id"></div>
+    <div class="viewer-meta" id="viewer-meta"></div>
+    <button class="viewer-close" id="viewer-close" aria-label="Close viewer">×</button>
+  </div>
+  <div class="viewer-canvas" id="viewer-canvas"></div>
+  <div class="viewer-status" id="viewer-status">loading splat…</div>
+  <div class="viewer-controls">
+    <span><kbd>drag</kbd> rotate</span>
+    <span><kbd>wheel</kbd> zoom</span>
+    <span><kbd>right-drag</kbd> pan</span>
+    <span><kbd>Esc</kbd> close</span>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module" src="./database.js"></script>
 </body>
 </html>
